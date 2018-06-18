@@ -7,6 +7,7 @@ import {
   Header,
   Container,
   Divider,
+  Dropdown,
 } from 'semantic-ui-react'
 
 class Posts extends React.Component {
@@ -14,6 +15,17 @@ class Posts extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(getPosts())
+  }
+
+  handleChange = (e, data) => {
+    this.setState({ category: data.value })
+  }
+
+  categoryOptions = () => {
+    const { categories } = this.props
+    return categories.map( (c,i) => { 
+      return { key: i, text: c, value: c }
+    })
   }
 
   posts = () => {
@@ -52,6 +64,7 @@ class Posts extends React.Component {
 
 
   render() {
+    const { category }= this.state
     return (
     <Container>
       <Divider />
@@ -61,6 +74,14 @@ class Posts extends React.Component {
           >
             Let's have a look at all your lovely posts
         </Header>
+      <Dropdown
+        placeholder="Filter by Topic"
+        fluid
+        selection
+        options={this.categoryOptions()}
+        value={category}
+        onChange={this.handleChange}
+      />
       <Divider />
       <Card.Group itemsPerRow={4}>
         { this.posts() }
