@@ -5,6 +5,6 @@ categories = ['Games', 'Fitness', 'Money', 'Lifestyle', 'Entertainment', 'Sports
     author: Faker::TheFreshPrinceOfBelAir.character,
     body: Faker::Hipster.paragraphs(3),
     category: categories.sample,
-    title: Faker::Hipster.words(3)
+    title: Faker::Hipster.words(3).join(' ')
   )
 end

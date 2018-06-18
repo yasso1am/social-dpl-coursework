@@ -2,7 +2,7 @@ class Api::PostsController < ApplicationController
   before_action :set_post, only: [:show, :update, :destroy]
 
   def index
-    render json: Post.all.order(created_at: desc)
+    render json: Post.all.order(created_at: :desc)
   end
 
   def show
@@ -14,7 +14,7 @@ class Api::PostsController < ApplicationController
     if post.save
       render json: post
     else
-      render json: { errors: post.errors.full_messages.join(',') }, status 422
+      render json: { errors: post.errors.full_messages.join(',') }, status: 422
     end
   end
 
@@ -22,7 +22,7 @@ class Api::PostsController < ApplicationController
     if @post.update(post_params)
       render json: @post
     else
-      render json: { errors: post.errors.full_messages.join(',') }, status 422
+      render json: { errors: post.errors.full_messages.join(',') }, status: 422
     end
   end
 
