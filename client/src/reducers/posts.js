@@ -26,7 +26,7 @@ export const updatePost = (post) => {
   return (dispatch) => {
     axios.put(`/api/posts/${post.id}`, {post})
     .then (res => {
-      disaptch({ type: UPDATE_POST, post: res.data })
+      dispatch({ type: UPDATE_POST, post: res.data })
     })
   }
 }
