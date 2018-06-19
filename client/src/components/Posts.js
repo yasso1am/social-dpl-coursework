@@ -3,6 +3,7 @@ import { connect} from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getPosts } from '../reducers/posts'
 import { 
+  Button,
   Card,
   Header,
   Container,
@@ -60,11 +61,24 @@ class Posts extends React.Component {
     </Card>
     )
   }
-
+  
+  clearFilter = (category) => { 
+    if (category){
+      return(
+        <Button
+            fluid
+            basic
+            onClick={() => this.setState({ category: '' })}
+          >
+            Clear Filters
+          </Button>
+      )
+    }
+  }
 
 
   render() {
-    const { category }= this.state
+    const { category } = this.state
     return (
     <Container>
       <Divider />
@@ -82,6 +96,16 @@ class Posts extends React.Component {
         value={category}
         onChange={this.handleChange}
       />
+      { this.clearFilter(category) }
+      {/* { category && 
+                  <Button
+                    fluid
+                    basic
+                    onClick={() => this.setState({ category: '' })}
+                  >
+                    Clear Filters
+                  </Button>
+              } */}
       <Divider />
       <Card.Group itemsPerRow={4}>
         { this.posts() }
