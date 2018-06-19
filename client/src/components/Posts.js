@@ -2,7 +2,7 @@ import React from 'react'
 import { connect} from 'react-redux'
 import { Link } from 'react-router-dom'
 import PostForm from './PostForm'
-import { getPosts } from '../reducers/posts'
+import { getPosts, deletePost } from '../reducers/posts'
 import { 
   Button,
   Card,
@@ -58,10 +58,19 @@ class Posts extends React.Component {
           Topic: { post.category }
         </Card.Description>
       </Card.Content>
-      <Card.Content extra>
+      <Card.Content 
+        extra
+        style={{textAlign: 'center'}}
+        >
         <Link to={`/posts/${post.id}`}>
           View Post
         </Link>
+        <Button
+            fluid
+            basic
+            onClick={() => this.props.dispatch(deletePost(post.id))}
+            >Delete Me
+        </Button>
       </Card.Content>
     </Card>
     )
@@ -103,8 +112,10 @@ class Posts extends React.Component {
           >
             Let's have a look at all your lovely posts
         </Header>
-      <Button onClick={this.toggleForm}>
-        { showForm ? 'Hide Form' : 'Show Form' }
+      <Button 
+        fluid
+        onClick={this.toggleForm}>
+        { showForm ? 'Hide Form' : 'Add a new Post' }
       </Button>
         { showForm ?
           <PostForm closeForm={this.toggleForm} />
