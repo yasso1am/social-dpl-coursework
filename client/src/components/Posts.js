@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect} from 'react-redux'
 import { Link } from 'react-router-dom'
+import PostForm from './PostForm'
 import { getPosts } from '../reducers/posts'
 import { 
   Button,
@@ -12,10 +13,14 @@ import {
 } from 'semantic-ui-react'
 
 class Posts extends React.Component {
-  state = { category: '' }
+  state = { category: '', showForm: false }
 
   componentDidMount() {
     this.props.dispatch(getPosts())
+  }
+
+  toggleForm = () => {
+    this.setState({ showForm: !this.state.showForm })
   }
 
   handleChange = (e, data) => {
@@ -62,6 +67,16 @@ class Posts extends React.Component {
     )
   }
   
+  // { category && 
+  //             <Button
+  //               fluid
+  //               basic
+  //               onClick={() => this.setState({ category: '' })}
+  //             >
+  //               Clear Filters
+  //             </Button>
+  //         }
+
   clearFilter = (category) => { 
     if (category){
       return(
@@ -75,12 +90,12 @@ class Posts extends React.Component {
       )
     }
   }
-
-
+  
+  
   render() {
-    const { category } = this.state
+    const { category, showForm } = this.state
     return (
-    <Container>
+      <Container>
       <Divider />
         <Header
           textAlign="center"
@@ -88,6 +103,13 @@ class Posts extends React.Component {
           >
             Let's have a look at all your lovely posts
         </Header>
+      <Button onClick={this.toggleForm}>
+        { showForm ? 'Hide Form' : 'Show Form' }
+      </Button>
+        { showForm ?
+          <PostForm closeForm={this.toggleForm} />
+            :
+            <div>
       <Dropdown
         placeholder="Filter by Topic"
         fluid
@@ -97,19 +119,12 @@ class Posts extends React.Component {
         onChange={this.handleChange}
       />
       { this.clearFilter(category) }
-      {/* { category && 
-                  <Button
-                    fluid
-                    basic
-                    onClick={() => this.setState({ category: '' })}
-                  >
-                    Clear Filters
-                  </Button>
-              } */}
       <Divider />
       <Card.Group itemsPerRow={4}>
         { this.posts() }
       </Card.Group>
+      </div>
+      }
      </Container>
     )
   }
